@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_14_073004) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_14_091210) do
   create_table "authors", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -30,6 +30,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_14_073004) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "libraries", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "writer_id", null: false
+    t.bigint "writerbook_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["writer_id"], name: "index_libraries_on_writer_id"
+    t.index ["writerbook_id"], name: "index_libraries_on_writerbook_id"
   end
 
   create_table "members", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -64,7 +73,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_14_073004) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "writerbooks", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "writers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "books", "authors"
+  add_foreign_key "libraries", "writerbooks"
+  add_foreign_key "libraries", "writers"
   add_foreign_key "memberships", "groups"
   add_foreign_key "memberships", "members"
   add_foreign_key "posts", "users"
